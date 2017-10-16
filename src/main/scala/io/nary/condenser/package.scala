@@ -1,3 +1,19 @@
+/***********************************************************************
+Copyright 2017 (C)  Ryan Delucchi  [nary.io || fp.engineering]
+
+Licensed under the Apache License, Version 2.0 (the "License");
+you may not use this file except in compliance with the License.
+You may obtain a copy of the License at
+
+    http://www.apache.org/licenses/LICENSE-2.0
+
+Unless required by applicable law or agreed to in writing, software
+distributed under the License is distributed on an "AS IS" BASIS,
+WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+See the License for the specific language governing permissions and
+limitations under the License.
+************************************************************************/
+
 package io.nary.condenser
 
 import scalaz.{Kleisli, Reader, Applicative}
@@ -13,6 +29,11 @@ import Scalaz._
 
 import scalaz.concurrent.{Task, Strategy}
 
+/**
+ * Fundamental data definitions are placed here.  The "Chunks" type-abstraction is a particularly neat way to model 
+ * an Effect Stream, Effect and Output values which maps directly onto the scalaz-stream Process, Task and output constructs.
+ * The TimeAccumulator is used for computing averages (which we need for tweet velocity calculation).
+ */
 package object defs {
   type Chunks[G[_[_], _], F[_], A] = G[F, A]
 
@@ -27,6 +48,12 @@ package object defs {
   def ignoredTweet = TweetData("", Nil, Nil, Nil, Nil)  
 }
 
+/**
+ * Here we have everything we need for computing tweet velocities.  Our work here is made more clear
+ * by use of the squants library, which allows us to perform computations that include units of measure.
+ * we probably didn't need to define any supporting ADTs, but due to some oddities to the squants library
+ * it was helpful seperate out some of the units and combine them mostly for computing time ratios.
+ */
 package object stats {
 
   import defs._
@@ -45,10 +72,11 @@ package object stats {
     }
   }
 
-  
-
 }
 
+/**
+ * Here we have some fairly standard machinery for defining our thread-pools, executors, etc.
+ */
 package object threading {
   def schedulingExecutor: Strategy = Strategy.Executor(schedulingPool)
 

@@ -1,7 +1,28 @@
+/***********************************************************************
+Copyright 2017 (C)  Ryan Delucchi  [nary.io || fp.engineering]
+
+Licensed under the Apache License, Version 2.0 (the "License");
+you may not use this file except in compliance with the License.
+You may obtain a copy of the License at
+
+    http://www.apache.org/licenses/LICENSE-2.0
+
+Unless required by applicable law or agreed to in writing, software
+distributed under the License is distributed on an "AS IS" BASIS,
+WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+See the License for the specific language governing permissions and
+limitations under the License.
+************************************************************************/
+
 package io.nary.condenser
 
 import org.scalatest.{FlatSpec, Matchers}
 
+/**
+ * Given that the ranking logic is easily the most tricky logic to validate (even with the test endpoints, its hard to
+ * get a sense if data is being ranked appropriately), we have a test here that given a list of names and frequencies
+ * we shuffle them around and see that they are ranked as expected.
+ */
 class RankingSpec extends FlatSpec with Matchers {
 
   import Ranking._
@@ -38,14 +59,21 @@ class RankingSpec extends FlatSpec with Matchers {
     top10(9) should equal("Crusher")
 
     ranked.excessLoad should equal(7)
+    // Here we prove that pruning zeros out the excess load and preserves the top 10 contenders.
     val rankedPruned = ranked.prune
     rankedPruned.excessLoad should equal(0)
-
-    val top3 = rankedPruned.top(3)
+    val top10pruned = rankedPruned.top(10)
     // There should be no change here
-    top3(0) should equal("Barclay")
-    top3(1) should equal("Pulaski")
-    top3(2) should equal("LaForge")
+    top10pruned(0) should equal("Barclay")
+    top10pruned(1) should equal("Pulaski")
+    top10pruned(2) should equal("LaForge")
+    top10pruned(3) should equal("Q")
+    top10pruned(4) should equal("Varley")
+    top10pruned(5) should equal("Troi")
+    top10pruned(6) should equal("O'Brien")
+    top10pruned(7) should equal("Picard")
+    top10pruned(8) should equal("Yar")
+    top10pruned(9) should equal("Crusher")
   }
 
 }
