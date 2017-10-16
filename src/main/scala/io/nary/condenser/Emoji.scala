@@ -20,20 +20,7 @@ object Emoji {
         tl <- (d --\ "texts").as[Option[List[String]]]
         u <- (d --\ "unified").as[Option[String]]
       } yield EmojiDef(n, tl.orNil ++ t.orNil , u.map(_.toUpperCase))
-    )
-  
-  /**
-  def resolve(hex: String) : List[String] = 
-    //if(hex.contains("-")) {
-    //  val range = hex.split("-")
-    //  (Integer.parseInt(range(0), 16) to Integer.parseInt(range(1), 16))
-    //    .toList.map(_.toHexString.toUpperCase)
-    //}
-    /**else**/ if(hex.isEmpty) 
-      Nil
-    else  
-      hex.toUpperCase :: Nil
-  **/    
+    )  
   
   def list : Task[List[EmojiDef]] = fromResource("/emoji_pretty.json")
     .flatMap(decode[List[EmojiDef]])

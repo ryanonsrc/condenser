@@ -57,5 +57,7 @@ object Ranking {
         m + (e -> ranked.items(e))
       }
     )
+    def pruneWhen(excessLoadThreadhold: Int) : Ranked[A] =
+      if(excessLoad > excessLoadThreadhold) prune else ranked
   }
 }

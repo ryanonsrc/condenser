@@ -41,9 +41,6 @@ object Twitter {
       } yield streamed
   }
 
-  def picUrl(tu: TweetUrl) : Boolean =
-    (tu.url contains "pic.twitter.com") || (tu.url contains "instagram.com")
-
   implicit val HashtagDecoder : DecodeJson[Hashtag] = 
     DecodeJson(h =>
       for {
@@ -74,5 +71,5 @@ object Twitter {
   def tweetData(json: Json)(asciiToEmojiDef: Map[String, EmojiDef], hexUnicodeToEmojiDef: Map[String, EmojiDef]) : Task[TweetData] = 
     decodeOrElse[TweetData](json.toString)(ignoredTweet).map(d => d.copy(
       emoji = Emoji.getEmojiFrom(d.text)(asciiToEmojiDef, hexUnicodeToEmojiDef)
-    ))
+    ))      
 }
