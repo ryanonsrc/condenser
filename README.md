@@ -1,12 +1,10 @@
 # Condenser
 ## A Streaming statistics computation engine for Twitter
 
-======
-### Ryan Delucchi, nary.io || fp.engineering**
+### Ryan Delucchi, nary.io || fp.engineering
 
 #### Implemented in Scala, utilizing scalaz, scalaz-stream, http4s, argonaut and squants
 
-======
 
 The Condenser gathers interesting statistics by observing the Twitter sample stream and continuously updating them 
 in real-time.  Amoung these statistics are information related to an emoji definition file, included here
