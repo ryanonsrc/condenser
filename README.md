@@ -3,7 +3,7 @@
 
 ### Ryan Delucchi, nary.io || fp.engineering
 
-#### Implemented in Scala, utilizing scalaz, scalaz-stream, http4s, argonaut and squants
+#### Implemented in Scala, utilizing all the right stuff.
 
 
 The Condenser gathers interesting statistics by observing the Twitter sample stream and continuously updating them 
